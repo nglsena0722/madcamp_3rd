@@ -43,8 +43,7 @@ const StartCoordinate = (props_start) => {
         <View style={styles.box} />
       </Animated.View>
       <Text style={styles.titleText}> 빨간 점을 출발지에 위치시키세요.</Text>
-      <Text style={styles.titleText}> 삭제해야함 : {props_start.x[0]}</Text>
-      <Button onPress={() => setxy()} title={'출발지 설정 확인'} />
+      <Button color="#ff5c5c" onPress={() => setxy()} title={'출발지 설정 확인'} />
     </View>
   );
 }

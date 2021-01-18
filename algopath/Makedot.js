@@ -15,7 +15,7 @@ const Makedot = (props_transdot) => {
         <Polyline
           points= {props_transdot.transdot.toString()}
           fill="none"
-          stroke="blue"
+          stroke="red"
           strokeWidth="3"
         />
       </Svg>

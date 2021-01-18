@@ -43,7 +43,7 @@ const DestCoordinate = (props_dest) => {
         <View style={styles.box} />
       </Animated.View>
       <Text style={styles.titleText}> 빨간 점을 도착지에 위치시키세요.</Text>
-      <Button onPress={() => setxy()} title={'도착지 설정 확인'} />
+      <Button color="#ff5c5c" onPress={() => setxy()} title={'도착지 설정 확인'} />
     </View>
   );
 }

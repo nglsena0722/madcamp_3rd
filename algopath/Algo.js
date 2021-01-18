@@ -15,21 +15,21 @@ import {
 } from 'react-native';
 
 const Algo = (props) => {
-  const [x, setX] = useState(0);
-  const [y, setY] = useState(0);
-  const [smallest, setSmallest] = useState(0);
-  const [smallest_item, setSmallest_item] = useState(props.workingarea[0]);
+  const [data, useData] = useState(props.data);
+  const [start, useStart] = useState(props.start);
+  const [dest, useDest] = useState(props.dest);
+  const [mart_x, setMart_x] = useState(props.mart_x);
+  const [mart_y, setMart_y] = useState(props.mart_y);
 
-  // params는 start 좌표, dest 좌표로 이루어져있음.
+  console.log("algo module start");
   const distance = (params) => {
     return (params[0] - params[2]) * (params[0] - params[2]) + (params[1] - params[3]) * (params[1] - params[3])
   }
-
   // 데이터 하나가 어느 영역에 속하는지 결정해준다.
   // item의 형식은 [x, y]
   const set_quad = (item) => {
-    if (item[1] >= (props.mart_x * item[0] / props.mart_y)) {
-      if (item[1] >= (-1 * props.mart_y * item[0] / props.mart_x + props.mart_y)) {
+    if (item[1] >= (mart_x * item[0] / mart_y)) {
+      if (item[1] >= (-1 * mart_y * item[0] / mart_x + mart_y)) {
         return 1;
       }
       else {
@@ -37,7 +37,7 @@ const Algo = (props) => {
       }
     }
     else {
-      if (item[1] >= (-1 * props.mart_y * item[0] / props.mart_x + props.mart_y)) {
+      if (item[1] >= (-1 * mart_y * item[0] / mart_x + mart_y)) {
         return 2;
       }
       else {
@@ -48,28 +48,41 @@ const Algo = (props) => {
   // 데이터들을 영역 4개로 쪼개줌
   // items는 이중 array 형식의 data이어야 한다.
   const set_data = (items) => {
-    const [top, setTop] = useState([]);
-    const [right, setRight] = useState([]);
-    const [bottom, setBottom] = useState([]);
-    const [left, setLeft] = useState([]);
-    items.map(item => {
-        if (set_quad(item) === 1) {
-          setTop([...top, item]);
-        }
-        else if (set_quad(item) === 2) {
-          setRight([...right, item]);
-        }
-        else if (set_quad(item) === 3) {
-          setBottom([...bottom, item]);
-        }
-        else {
-          setLeft([...left, item]);
-        }
+    console.log("set data");
+    var item_list = [...items];
+    console.log("item list:")
+    var top = [];
+    var right = [];
+    var bottom = [];
+    var left = [];
+    for (let i = 0; i < item_list.length; i++) {
+      console.log(i);
+      switch (set_quad(item_list[i])) {
+        case 1:
+          console.log('in 1');
+          top.push(item_list[i]);
+          console.log(top);
+          break
+        case 2:
+          console.log('in 2');
+          right.push(item_list[i]);
+          console.log(right)
+          break
+        case 3:
+          console.log('in 3');
+          bottom.push(item_list[i]);
+          console.log(bottom)
+          break
+        case 4:
+          console.log('in 4');
+          left.push(item_list[i]);
+          console.log(left)
+          break
       }
-    )
-    return [top, right, bottom, left]
+    }
+    console.log(right);
+    return [[...top], [...right], [...bottom], [...left]]
   }
-
   // 절댓값을 만들어주는 함수
   const myabs = (num) => {
     if (num >= 0) {
@@ -117,43 +130,54 @@ const Algo = (props) => {
     return result;
   }
 
-  const get_nearest = (props) => {
-    setX(props.temp_start[0]);
-    setY(props.temp_start[1]);
-    setSmallest(distance([x, y, props.workingarea[0][0], props.workingarea[0][1]]));
-
-
-
+  const get_nearest = (temp_props) => {
+    var x = temp_props.temp_start[0];
+    var y = temp_props.temp_start[1];
+    var smallest = distance([x, y, temp_props.workingarea[0][0], temp_props.workingarea[0][1]]);
+    var temp = 0;
+    var smallest_item = temp_props.workingarea[0];
+    var working_area = temp_props.workingarea;
+    for (let i = 0; i < working_area; i++){
+      temp = distance([x, y, working_area[i][0], working_area[i][1]]);
+      if (temp < smallest) {
+        smallest = temp;
+        smallest_item = working_area[i];
+      }
+    }
+    return smallest_item;
   }
-
   const algo = () => {
-    const [dataset, setDataset] = useState(set_data(props.data));
-    const [startnum, setStartnum] = useState(set_quad(props.start));
-    const [destnum, setDestnum] = useState(set_quad(props.dest));
-    const [area_path, setArea_path] = useState(make_area_path([startnum, destnum]));
-    const [temparray, setTemparray] = useState([]);
-    const [temp_start, setTemp_start] = useState(0);
+    var dataset = set_data(props.data);
+    var pos_start = set_quad(start);
+    var pos_dest = set_quad(dest);
+    var area_path = make_area_path([pos_start, pos_dest]);
     // return 할 order
-    const [order, setOrder] = useState([props.start]);
-    const [workingarea, setWorkingarea] = useState([]);
-    let props;
+    var order = [start];
+    var workingarea = [];
+
     var index = 0;
+    let temp_props;
+    var temp_start = 0;
+    var temp_dest = 0;
+
     for (let i = 0; i < 4; i++) {
-      setWorkingarea(dataset[area_path.shift() - 1]);
+      workingarea = dataset[area_path.shift() - 1];
       for (let j = 0; j < workingarea.length; j++) {
-        setTemp_start(order[index]);
-        props = {
+        temp_start = order[index];
+        temp_props = {
           temp_start : temp_start,
           workingarea : workingarea
         }
-
+        temp_dest = get_nearest(temp_props);
+        order.push(temp_dest);
+        workingarea = workingarea.filter(value => value !== temp_dest);
+        index++;
       }
     }
     order.push(props.dest);
     return order;
   }
-
-  return props.data;
+  return algo();
 }
 
 export default Algo;

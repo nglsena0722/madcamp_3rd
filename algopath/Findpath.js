@@ -17,25 +17,24 @@ import Makedot from './Makedot';
 import Algo from './Algo';
 
 const Findpath = (props_variable) => {
-  // 이동 경로 좌표값 Array 받아오는 변수
+  // 파이어베이스에서 이동 경로 좌표값 Array 받아오기
   const [sampledot, setSampledot] = useState([ [-160,-190], [-170,-230], [-140,-180], [200,0]]);
+
   const [mart_x, setMart_x] = useState(400);
   const [mart_y, setMart_y] = useState(250);
   const coordtrans = () => {
     var data = [];
-    console.log(props_variable.startdest[0]);
-    console.log(props_variable.startdest[1]);
-    data.push([props_variable.startdest[0][0]+200, props_variable.startdest[0][1]+270]);
+//    data.push([props_variable.startdest[0][0]+200, props_variable.startdest[0][1]+270]);
     for (let i = 0; i < sampledot.length; i++) {
       data.push([sampledot[i][0]+200, sampledot[i][1]+270]);
     }
 
-    data.push([props_variable.startdest[1][0]+200, props_variable.startdest[1][1]+270]);
+//    data.push([props_variable.startdest[1][0]+200, props_variable.startdest[1][1]+270]);
 
     let props= {
       data : data,
-      start : props_variable.startdest[0],
-      dest : props_variable.startdest[1],
+      start : [props_variable.startdest[0][0]+200, props_variable.startdest[0][1]+270],
+      dest : [props_variable.startdest[1][0]+200, props_variable.startdest[1][1]+270],
       mart_x : mart_x,
       mart_y : mart_y,
     }

@@ -154,7 +154,7 @@ const App: () => React$Node = () => {
 
     <View style = {styles.StoreContainer}>
       <TouchableOpacity  style={styles.Storebutton}>
-        <Text style={styles.Text}> 대전 이마트 ∨ </Text>
+        <Text style={styles.Text}> 대전 홈플러스 ∨ </Text>
       </TouchableOpacity>
     </View>
 
@@ -163,27 +163,24 @@ const App: () => React$Node = () => {
         <View style={styles.switchcontainer}>
           <Text>경로 설정: {!visibleStatusBar ? '자동' : '수동'} </Text>
           <Switch
-            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            trackColor={{ false: "green", true: "pink" }} // #767577 "#81b0ff"
             thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
             ios_backgroundColor="#3e3e3e"
             onValueChange={toggleSwitch}
             value={isEnabled}
           />
         </View>
-        <Button onPress={() => startbuttonpress()} title={'출발지'} />
-        <Button onPress={() => destbuttonpress()} title={'도착지'} />
-        <Button onPress={() => pathbuttonpress()} title={'경로 탐색'} />
+        <Button color="#ff5c5c" onPress={() => startbuttonpress()} title={'출발지'} />
+        <Button color="#ff5c5c" onPress={() => destbuttonpress()} title={'도착지'} />
+        <Button color="#ff5c5c" onPress={() => pathbuttonpress()} title={'경로 탐색'} />
       </View>
     </View>
-    <View>
-        <Text> Start Coordinate: {startxy[0]}, {startxy[1]} </Text>
-        <Text> Dest Coordinate: {destxy[0]}, {destxy[1]} </Text>
-    </View>
+
     <View style={styles.imagecontainer}>
       <Image
         resizeMode="cover"
         style={{height: 240,width: 400}}
-        source={require('./map3.jpg')}/>
+        source={require('./map9.jpg')}/>
       <View style={{position: 'absolute'}}>
         {pathcheckbutton && <Findpath {...props_variable}/> }
       </View>
@@ -193,7 +190,7 @@ const App: () => React$Node = () => {
       <View style={styles.button}>
         {visibleStatusBar && checkstartcoordvisible && <StartCoordinate {...props_start}/> }
         {visibleStatusBar && checkdestcoordvisible && <DestCoordinate {...props_dest}/> }
-        {pathcheckbutton && <Button onPress = {() => setPathcheckbutton()} title ={'확인'} /> }
+        {pathcheckbutton && <Button color="#ff5c5c" onPress = {() => setPathcheckbutton()} title ={'확인'} /> }
       </View>
     </View>
 
