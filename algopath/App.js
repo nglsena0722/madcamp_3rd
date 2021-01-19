@@ -163,7 +163,7 @@ const App: () => React$Node = () => {
         <View style={styles.switchcontainer}>
           <Text>경로 설정: {!visibleStatusBar ? '자동' : '수동'} </Text>
           <Switch
-            trackColor={{ false: "green", true: "pink" }} // #767577 "#81b0ff"
+            trackColor={{ false: "pink", true: "red" }} // #767577 "#81b0ff"
             thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
             ios_backgroundColor="#3e3e3e"
             onValueChange={toggleSwitch}

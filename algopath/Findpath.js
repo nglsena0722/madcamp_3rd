@@ -18,7 +18,7 @@ import Algo from './Algo';
 
 const Findpath = (props_variable) => {
   // 파이어베이스에서 이동 경로 좌표값 Array 받아오기
-  const [sampledot, setSampledot] = useState([ [-160,-190], [-170,-230], [-140,-180], [200,0]]);
+  const [sampledot, setSampledot] = useState([ [-150,-200], [-100,-150], [-140,-180], [-50,-100]]);
 
   const [mart_x, setMart_x] = useState(400);
   const [mart_y, setMart_y] = useState(250);
@@ -39,11 +39,11 @@ const Findpath = (props_variable) => {
       mart_y : mart_y,
     }
     console.log(data);
+    // 알고리즘을 적용한 좌표 순서를 넘긴다.
     return Algo(props);
   }
 
   const [transdot, setTransdot] = useState(coordtrans());
-  // transdot에 알고리즘을 적용해서 applydot에 넘긴다.
   let props_transdot= {
     transdot : transdot,
     mart_x : mart_x,
